@@ -1,19 +1,18 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    caret.url = "github:elmarsto/caret.git";
-    nixpkgs.url = "github:NixOS/nixpkgs";
     gitignore = {
       url = "github:hercules-ci/gitignore.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs.url = "github:NixOS/nixpkgs";
   };
   outputs =
-    { np, fu, gi }: fu.lib.eachDefaultSystem (s:
+    { flake-utils, gitignore, nixpkgs }: flake-utils.lib.eachDefaultSystem (system:
       let
         app = p: { program = "${p}"; type = "app"; };
-        pkgs = import np { inherit s; };
-        src = gi.lib.gitignoreSource ./.;
+        pkgs = import nixpkgs { inherit system; };
+        src = gitignore.lib.gitignoreSource ./.;
       in
       {
         apps = { };
@@ -22,6 +21,3 @@
       }
     );
 }
-
-
-
