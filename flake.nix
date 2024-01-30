@@ -11,7 +11,7 @@
       in
       {
         lib = import ./lib { inherit pkgs; };
-        packages.default = import ./default.nix { inherit pkgs; };
+        # TODO: packages.default
       }
     );
 }
